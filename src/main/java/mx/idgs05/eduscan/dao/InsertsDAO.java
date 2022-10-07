@@ -1,16 +1,16 @@
 package mx.idgs05.eduscan.dao;
 
-import mx.idgs05.eduscan.bean.GenericResponseBean;
+import mx.idgs05.eduscan.bean.RegistroUsuarioResponseBean;
 import mx.idgs05.eduscan.bean.RegistroUsuarioRequestBean;
 import mx.idgs05.eduscan.util.Utils;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class InsertsDAO extends ScanEduDAO{
 
-    public GenericResponseBean insertarUsuario(RegistroUsuarioRequestBean requestBean){
-        GenericResponseBean response = new GenericResponseBean();
+    public RegistroUsuarioResponseBean insertarUsuario(RegistroUsuarioRequestBean requestBean){
+        RegistroUsuarioResponseBean response = new RegistroUsuarioResponseBean();
         Utils utils = new Utils();
         try {
             startConnection();
@@ -19,11 +19,14 @@ public class InsertsDAO extends ScanEduDAO{
                             "VALUES ('"+requestBean.getMatricula()+"', '"+requestBean.getEmail()+"', '"+
                             requestBean.getHash()+"', '"+requestBean.getSalt()+"', "+requestBean.getAcceso()+", '"+utils.fecha()+"')");
 
+
             closeConnection();
-            response.setSqlResponseCode(sqlResponse);
+            response.setReturnCode(sqlResponse);
         } catch (SQLException e) {
             //throw new RuntimeException(e);
             System.out.println(e);
+            response.setSqlCode(Objects.toString(e.getErrorCode()));
+            response.setSqlMessage(e.getMessage());
         }
         return response;
     }

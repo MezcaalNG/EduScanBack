@@ -17,10 +17,11 @@ Utils utils = new Utils();
 
     @PostMapping("/login")
     String Login(@RequestBody LoginRequestBean loginRequestBean) {
+        System.out.println("entra login");
         LoginResponseBean responseObject = null;
         ConsultasBO bo = new ConsultasBO();
         responseObject = bo.login(loginRequestBean);
-
+        System.out.println(utils.jsonFormatter(responseObject));
         return utils.jsonFormatter(responseObject);
     }
 

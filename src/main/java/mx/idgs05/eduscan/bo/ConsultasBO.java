@@ -9,6 +9,13 @@ public class ConsultasBO {
         LoginResponseBean response=null;
         ConsultasDAO dao = new ConsultasDAO();
         response= dao.login(request);
+        if(response.getMatricula()!=null){
+            response.setMensaje("OK");
+        }else{
+            response.setMensaje("NOK");
+            response.setMatricula("");
+            response.setAcceso("");
+        }
         return response;
     }
 }

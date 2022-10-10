@@ -5,6 +5,12 @@ public class RegistroUsuarioResponseBean {
     private String sqlCode;
     private String sqlMessage;
 
+    public RegistroUsuarioResponseBean() {
+        this.returnCode = 0;
+        this.sqlCode = "";
+        this.sqlMessage = "";
+    }
+
     public int getReturnCode() {
         return returnCode;
     }

@@ -24,7 +24,9 @@ public class ScanEduDAO {
 
     void closeConnection(){
         try{
-            resultSet.close();
+            if(resultSet!=null){
+                resultSet.close();
+            }
             statement.close();
             connection.close();
         }catch(Exception exception){

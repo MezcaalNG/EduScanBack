@@ -1,5 +1,7 @@
 package mx.idgs05.eduscan.bo;
 
+import mx.idgs05.eduscan.bean.ConsultaAlumnoRequestBean;
+import mx.idgs05.eduscan.bean.ConsultaAlumnoResponseBean;
 import mx.idgs05.eduscan.bean.LoginRequestBean;
 import mx.idgs05.eduscan.bean.LoginResponseBean;
 import mx.idgs05.eduscan.dao.ConsultasDAO;
@@ -17,6 +19,13 @@ public class ConsultasBO {
             response.setMatricula("");
             response.setAcceso("");
         }
+        return response;
+    }
+
+    public ConsultaAlumnoResponseBean consultaAlumno(ConsultaAlumnoRequestBean request){
+        ConsultaAlumnoResponseBean response = null;
+        dao= new ConsultasDAO();
+        response=dao.consultarAlumno(request);
         return response;
     }
 }

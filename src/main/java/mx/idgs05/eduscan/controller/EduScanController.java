@@ -41,4 +41,12 @@ ConsultasBO consultasBO=null;
         return utils.jsonFormatter(response);
     }
 
+    @PostMapping("/consultarAlumno")
+    String ConsultarAlumno(@RequestBody ConsultaAlumnoRequestBean request){
+        ConsultaAlumnoResponseBean response = null;
+        consultasBO = new ConsultasBO();
+        response= consultasBO.consultaAlumno(request);
+        return utils.jsonFormatter(response);
+    }
+
 }

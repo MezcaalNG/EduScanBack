@@ -1,9 +1,6 @@
 package mx.idgs05.eduscan.bo;
 
-import mx.idgs05.eduscan.bean.RegistroAlumnoRequeatBean;
-import mx.idgs05.eduscan.bean.RegistroAlumnoResponseBean;
-import mx.idgs05.eduscan.bean.RegistroUsuarioResponseBean;
-import mx.idgs05.eduscan.bean.RegistroUsuarioRequestBean;
+import mx.idgs05.eduscan.bean.*;
 import mx.idgs05.eduscan.dao.InsertsDAO;
 
 import java.util.Random;
@@ -30,5 +27,10 @@ public class InsertsBO {
             response.setMatricula(request.getMatricula());
         }
         return response;
+    }
+
+    public void updateAcceso(LoginRequestBean request){
+        dao = new InsertsDAO();
+        dao.updateUltimoAcceso(request);
     }
 }

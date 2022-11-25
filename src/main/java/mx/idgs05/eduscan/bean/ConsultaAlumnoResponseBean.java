@@ -5,14 +5,16 @@ public class ConsultaAlumnoResponseBean {
     private String nombre;
     private String apellidop;
     private String apellidom;
-    private int estatus;
+    private String estatus;
+    private int idestatus;
     private String direccion;
     private String nacimiento;
     private String emailins;
     private String emailper;
     private String celular;
     private String nss;
-    private int tiposangre;
+    private String tiposangre;
+    private int idtiposangre;
     private String grupo;
     private String carrera;
     private String cuatrimestre;
@@ -49,12 +51,20 @@ public class ConsultaAlumnoResponseBean {
         this.apellidom = apellidom;
     }
 
-    public int getEstatus() {
+    public String getEstatus() {
         return estatus;
     }
 
-    public void setEstatus(int estatus) {
+    public void setEstatus(String estatus) {
         this.estatus = estatus;
+    }
+
+    public int getIdestatus() {
+        return idestatus;
+    }
+
+    public void setIdestatus(int idestatus) {
+        this.idestatus = idestatus;
     }
 
     public String getDireccion() {
@@ -105,12 +115,20 @@ public class ConsultaAlumnoResponseBean {
         this.nss = nss;
     }
 
-    public int getTiposangre() {
+    public String getTiposangre() {
         return tiposangre;
     }
 
-    public void setTiposangre(int tiposangre) {
+    public void setTiposangre(String tiposangre) {
         this.tiposangre = tiposangre;
+    }
+
+    public int getIdtiposangre() {
+        return idtiposangre;
+    }
+
+    public void setIdtiposangre(int idtiposangre) {
+        this.idtiposangre = idtiposangre;
     }
 
     public String getGrupo() {

@@ -1,9 +1,6 @@
 package mx.idgs05.eduscan.dao;
 
-import mx.idgs05.eduscan.bean.RegistroAlumnoRequeatBean;
-import mx.idgs05.eduscan.bean.RegistroAlumnoResponseBean;
-import mx.idgs05.eduscan.bean.RegistroUsuarioResponseBean;
-import mx.idgs05.eduscan.bean.RegistroUsuarioRequestBean;
+import mx.idgs05.eduscan.bean.*;
 import mx.idgs05.eduscan.util.Utils;
 
 import java.sql.SQLException;
@@ -58,5 +55,18 @@ public class InsertsDAO extends ScanEduDAO{
         }
 
         return response;
+    }
+
+    public void updateUltimoAcceso(LoginRequestBean request){
+        Utils utils = new Utils();
+        String query="UPDATE USUARIOS SET ACCESO='REQFECHA' WHERE EMAIL ='REQEMAIL'";
+        query=query.replace("REQFECHA", utils.fecha()).replace("REQEMAIL",request.getEmail());
+        try{
+            startConnection();
+            int sqlResponse = statement.executeUpdate(query);
+            closeConnection();
+        } catch(SQLException e){
+            System.out.println(e);
+        }
     }
 }

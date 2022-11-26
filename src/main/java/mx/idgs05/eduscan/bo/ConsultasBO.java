@@ -1,10 +1,8 @@
 package mx.idgs05.eduscan.bo;
 
-import mx.idgs05.eduscan.bean.ConsultaAlumnoRequestBean;
-import mx.idgs05.eduscan.bean.ConsultaAlumnoResponseBean;
-import mx.idgs05.eduscan.bean.LoginRequestBean;
-import mx.idgs05.eduscan.bean.LoginResponseBean;
+import mx.idgs05.eduscan.bean.*;
 import mx.idgs05.eduscan.dao.ConsultasDAO;
+import mx.idgs05.eduscan.util.EncryptDecryptRSAUtil;
 import mx.idgs05.eduscan.util.Utils;
 
 public class ConsultasBO {
@@ -28,8 +26,35 @@ public class ConsultasBO {
         ConsultaAlumnoResponseBean response = null;
         dao= new ConsultasDAO();
         response=dao.consultarAlumno(request);
-        response.setTiposangre(utils.generateBloodType(response.getIdtiposangre()));
-        response.setEstatus(utils.generateStatus(response.getIdestatus()));
-        return response;
+        ConsultaAlumnoResponseBean unCypheredResponse = new ConsultaAlumnoResponseBean();
+        unCypheredResponse = unCypherResponse(response);
+        unCypheredResponse.setTiposangre(utils.generateBloodType(response.getIdtiposangre()));
+        unCypheredResponse.setEstatus(utils.generateStatus(response.getIdestatus()));
+        return unCypheredResponse;
     }
+    public ConsultaAlumnoResponseBean unCypherResponse(ConsultaAlumnoResponseBean response){
+        ConsultaAlumnoResponseBean unCypheredResponse = new ConsultaAlumnoResponseBean();
+        EncryptDecryptRSAUtil cryptoRSAUtil = new EncryptDecryptRSAUtil();
+        unCypheredResponse.setMatricula(response.getMatricula());
+        unCypheredResponse.setIdestatus(response.getIdestatus());
+        unCypheredResponse.setIdtiposangre(response.getIdtiposangre());
+        try {
+            unCypheredResponse.setNombre(cryptoRSAUtil.decode(response.getNombre()));
+            unCypheredResponse.setApellidop(cryptoRSAUtil.decode(response.getApellidop()));
+            unCypheredResponse.setApellidom(cryptoRSAUtil.decode(response.getApellidom()));
+            unCypheredResponse.setDireccion(cryptoRSAUtil.decode(response.getDireccion()));
+            unCypheredResponse.setNacimiento(cryptoRSAUtil.decode(response.getNacimiento()));
+            unCypheredResponse.setEmailins(cryptoRSAUtil.decode(response.getEmailins()));
+            unCypheredResponse.setEmailper(cryptoRSAUtil.decode(response.getEmailper()));
+            unCypheredResponse.setCelular(cryptoRSAUtil.decode(response.getCelular()));
+            unCypheredResponse.setNss(cryptoRSAUtil.decode(response.getNss()));
+            unCypheredResponse.setGrupo(cryptoRSAUtil.decode(response.getGrupo()));
+            unCypheredResponse.setCarrera(cryptoRSAUtil.decode(response.getCarrera()));
+            unCypheredResponse.setCuatrimestre(cryptoRSAUtil.decode(response.getCuatrimestre()));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return unCypheredResponse;
+    }
+
 }

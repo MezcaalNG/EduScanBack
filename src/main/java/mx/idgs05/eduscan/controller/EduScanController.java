@@ -4,24 +4,22 @@ package mx.idgs05.eduscan.controller;
 import mx.idgs05.eduscan.bean.*;
 import mx.idgs05.eduscan.bo.ConsultasBO;
 import mx.idgs05.eduscan.bo.InsertsBO;
-import mx.idgs05.eduscan.dao.InsertsDAO;
-import mx.idgs05.eduscan.util.RSA;
+import mx.idgs05.eduscan.util.EncryptDecryptRSAUtil;
+import mx.idgs05.eduscan.util.KeyPairRSAGeneratorUtil;
 import mx.idgs05.eduscan.util.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
-import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
 
 @RestController
 public class EduScanController {
+    private static Logger log = LoggerFactory.getLogger(EduScanController.class);
 Utils utils = new Utils();
 InsertsBO insertsBO = null;
 ConsultasBO consultasBO=null;
@@ -62,45 +60,41 @@ ConsultasBO consultasBO=null;
     }
 
     @PostMapping("/generateRSA")
-    String ConsultarAlumno() throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, IOException, InvalidKeySpecException, NoSuchProviderException {
-        RSA rsa = new RSA();
-        rsa.genKeyPair(512);
+    String ConsultarAlumno()  {
+        KeyPairRSAGeneratorUtil KPRSAGU = new KeyPairRSAGeneratorUtil();
+        try {
+            //KPRSAGU.createKeys();
+            KPRSAGU.loadPrivateKey();
+            KPRSAGU.loadPublicKey();
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println(e);
+        } catch (IOException e) {
+            System.out.println(e);
+        } catch (InvalidKeySpecException e) {
+            System.out.println(e);
+        }
+        return "";
+    }
 
-        String str = "Este es el texto a cifrar";
+    @PostMapping("/testRSA")
+    String test(){
+        EncryptDecryptRSAUtil cryptoRSAUtil = new EncryptDecryptRSAUtil();
 
-        System.out.println("\nTexto a cifrar:");
-        System.out.println(str);
-        String file_private = "d:/tmp/rsa.pri";
-        String file_public = "d:/tmp/rsa.pub";
-
-        //Las guardamos asi podemos usarlas despues
-        //a lo largo del tiempo
-        rsa.saveToDiskPrivateKey("D:/tmp/rsa.pri");
-        rsa.saveToDiskPublicKey("D:/tmp/rsa.pub");
-
-        String secure = rsa.Encrypt(str);
-
-        System.out.println("\nCifrado:");
-        System.out.println(secure);
-
-
-
-        //A modo de ejemplo creamos otra clase rsa
-        RSA rsa2 = new RSA();
-
-        //A diferencia de la anterior aca no creamos
-        //un nuevo par de claves, sino que cargamos
-        //el juego de claves que habiamos guadado
-        rsa2.openFromDiskPrivateKey("d:/tmp/rsa.pri");
-        rsa2.openFromDiskPublicKey("d:/tmp/rsa.pub");
-
-        //Le pasamos el texto cifrado (secure) y nos
-        //es devuelto el texto ya descifrado (unsecure)
-        String unsecure = rsa2.Decrypt(secure);
-
-        //Imprimimos
-        System.out.println("\nDescifrado:");
-        System.out.println(unsecure);
+        try {
+            String textToEncrypt = "moises.navarro1408@gmail.com.mx";
+            log.debug("Encrypting text {} ", textToEncrypt);
+            String encoded = cryptoRSAUtil.encode(textToEncrypt);
+            log.debug("Encrypted result:");
+            log.debug(encoded);
+            System.out.println(encoded);
+            log.debug("Decrypting result:");
+            String decode = null;
+            decode = cryptoRSAUtil.decode(encoded);
+            log.debug(decode);
+            System.out.println(decode);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return "";
     }
 

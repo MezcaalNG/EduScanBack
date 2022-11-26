@@ -2,6 +2,7 @@ package mx.idgs05.eduscan.bo;
 
 import mx.idgs05.eduscan.bean.*;
 import mx.idgs05.eduscan.dao.InsertsDAO;
+import mx.idgs05.eduscan.util.EncryptDecryptRSAUtil;
 
 import java.util.Random;
 
@@ -22,7 +23,8 @@ public class InsertsBO {
     public RegistroAlumnoResponseBean registrarAlumno(RegistroAlumnoRequeatBean request){
         dao = new InsertsDAO();
         RegistroAlumnoResponseBean response = new RegistroAlumnoResponseBean();
-        response=dao.registrarAlumno(request);
+        RegistroAlumnoRequeatBean cypheredRequest = cypherRequest(request);
+        response=dao.registrarAlumno(cypheredRequest);
         if(response.getReturnCode()==1){
             response.setMatricula(request.getMatricula());
         }
@@ -33,4 +35,30 @@ public class InsertsBO {
         dao = new InsertsDAO();
         dao.updateUltimoAcceso(request);
     }
+
+    public RegistroAlumnoRequeatBean cypherRequest(RegistroAlumnoRequeatBean request){
+        RegistroAlumnoRequeatBean cypheredRequest = new RegistroAlumnoRequeatBean();
+        EncryptDecryptRSAUtil cryptoRSAUtil = new EncryptDecryptRSAUtil();
+        cypheredRequest.setMatricula(request.getMatricula());
+        cypheredRequest.setEstatus(request.getEstatus());
+        cypheredRequest.setTiposangre(request.getTiposangre());
+        try {
+            cypheredRequest.setNombre(cryptoRSAUtil.encode(request.getNombre()));
+            cypheredRequest.setApellidop(cryptoRSAUtil.encode(request.getApellidop()));
+            cypheredRequest.setApellidom(cryptoRSAUtil.encode(request.getApellidom()));
+            cypheredRequest.setDireccion(cryptoRSAUtil.encode(request.getDireccion()));
+            cypheredRequest.setNacimiento(cryptoRSAUtil.encode(request.getNacimiento()));
+            cypheredRequest.setEmailins(cryptoRSAUtil.encode(request.getEmailins()));
+            cypheredRequest.setEmailper(cryptoRSAUtil.encode(request.getEmailper()));
+            cypheredRequest.setCelular(cryptoRSAUtil.encode(request.getCelular()));
+            cypheredRequest.setNss(cryptoRSAUtil.encode(request.getNss()));
+            cypheredRequest.setGrupo(cryptoRSAUtil.encode(request.getGrupo()));
+            cypheredRequest.setCarrera(cryptoRSAUtil.encode(request.getCarrera()));
+            cypheredRequest.setCuatrimestre(cryptoRSAUtil.encode(request.getCuatrimestre()));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return cypheredRequest;
+    }
+
 }

@@ -34,10 +34,8 @@ public class KeyPairRSAGeneratorUtil {
         }
 
         System.out.println("Private key: " + aPrivate.getFormat());
-        // prints "Private key format: PKCS#8" on my machine
 
         System.out.println("Public key: " + aPublic.getFormat());
-        // prints "Public key format: X.509" on my machine
     }
 
     public static PrivateKey loadPrivateKey() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {

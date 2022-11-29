@@ -1,16 +1,19 @@
 package mx.idgs05.eduscan.bean;
 
-public class RegistroAlumnoResponseBean {
+public class GenericResponseBean {
+
     private int returnCode;
     private String sqlCode;
     private String sqlMessage;
     private String matricula;
+    private int nivel;
+    private String acceso;
+    private  String mensaje;
 
-    public RegistroAlumnoResponseBean(){
-        this.matricula="";
-        this.sqlCode="";
-        this.sqlMessage="";
-        this.returnCode=0;
+    public GenericResponseBean() {
+        this.returnCode = 0;
+        this.sqlCode = "";
+        this.sqlMessage = "";
     }
 
     public int getReturnCode() {
@@ -43,5 +46,29 @@ public class RegistroAlumnoResponseBean {
 
     public void setMatricula(String matricula) {
         this.matricula = matricula;
+    }
+
+    public int getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
+    }
+
+    public String getAcceso() {
+        return acceso;
+    }
+
+    public void setAcceso(String acceso) {
+        this.acceso = acceso;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
     }
 }

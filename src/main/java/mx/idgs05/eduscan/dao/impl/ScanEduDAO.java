@@ -1,4 +1,4 @@
-package mx.idgs05.eduscan.dao;
+package mx.idgs05.eduscan.dao.impl;
 
 import mx.idgs05.eduscan.bean.RegistroUsuarioRequestBean;
 
@@ -9,7 +9,7 @@ public class ScanEduDAO {
     Statement statement = null;
     ResultSet resultSet = null;
 
-    void startConnection(){
+    protected void startConnection(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(
@@ -22,7 +22,7 @@ public class ScanEduDAO {
         }
     }
 
-    void closeConnection(){
+    protected void closeConnection(){
         try{
             if(resultSet!=null){
                 resultSet.close();
